@@ -6,300 +6,6 @@
   <title>Autograph Gold — QR Menu</title>
 
   <style>
-    :root{
-      --bg:#070707;
-      --panel:#0f0f10;
-      --panel2:#0b0b0c;
-      --gold:#c9b27c;
-      --gold2:#e3d2a1;
-      --text:#f5f5f5;
-      --muted:#bdbdbd;
-      --line:#232323;
-      --ok:#65d672;
-      --bad:#ff5a5a;
-      --shadow: 0 18px 50px rgba(0,0,0,.45);
-      --shadow2: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 18px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(1200px 700px at 70% -10%, rgba(201,178,124,.10), transparent 60%),
-        radial-gradient(900px 600px at 20% 0%, rgba(201,178,124,.08), transparent 55%),
-        radial-gradient(900px 700px at 20% 110%, rgba(201,178,124,.06), transparent 55%),
-        var(--bg);
-      color:var(--text);
-      overflow-x:hidden;
-    }
-
-    /* ======= Opening animation ======= */
-    .intro{
-      position:fixed; inset:0; z-index:9999;
-      display:flex; align-items:center; justify-content:center;
-      background:
-        radial-gradient(900px 600px at 50% 40%, rgba(201,178,124,.15), transparent 60%),
-        rgba(0,0,0,.92);
-      backdrop-filter: blur(14px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
-    .intro.hide{opacity:0; pointer-events:none; transform:scale(1.02)}
-    .introBox{
-      width:min(560px, 92vw);
-      border-radius:28px;
-      border:1px solid rgba(201,178,124,.45);
-      background: rgba(14,14,15,.55);
-      box-shadow: var(--shadow);
-      padding:22px 18px 18px;
-      text-align:center;
-      overflow:hidden;
-      position:relative;
-    }
-    .introBox:before{
-      content:"";
-      position:absolute; inset:-70%;
-      background: conic-gradient(from 120deg, transparent, rgba(255,255,255,.18), transparent 60%);
-      animation: introShine 2.8s linear infinite;
-      opacity:.9;
-      pointer-events:none;
-    }
-    @keyframes introShine{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-    .introInner{position:relative}
-    .bigBrand{
-      margin:0;
-      font-weight:1000;
-      letter-spacing: 8px;
-      color: transparent;
-      background: linear-gradient(90deg, rgba(201,178,124,.4), rgba(227,210,161,1), rgba(201,178,124,.4));
-      -webkit-background-clip:text;
-      background-clip:text;
-      text-transform:uppercase;
-      font-size: clamp(24px, 5vw, 44px);
-      line-height:1.05;
-      filter: drop-shadow(0 18px 40px rgba(201,178,124,.12));
-      animation: textPulse 1.8s ease-in-out infinite;
-    }
-    @keyframes textPulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-    .subBrand{
-      margin:10px 0 0;
-      color:rgba(245,245,245,.62);
-      letter-spacing:1px;
-      font-size:13px;
-    }
-    .introRow{
-      display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
-      margin-top:16px;
-    }
-    .introBtn{
-      padding:11px 14px;
-      border-radius:16px;
-      border:1px solid rgba(201,178,124,.65);
-      background: rgba(0,0,0,.25);
-      color: var(--gold);
-      font-weight:1000;
-      cursor:pointer;
-      transition:.15s transform ease, .15s background ease;
-    }
-    .introBtn:hover{transform:translateY(-1px)}
-    .introBtn.primary{
-      background: linear-gradient(135deg, rgba(201,178,124,.95), rgba(227,210,161,.9));
-      border-color: transparent;
-      color:#000;
-    }
-
-    /* ======= Header ======= */
-    header{
-      position:sticky; top:0; z-index:80;
-      padding: calc(14px + env(safe-area-inset-top,0px)) 14px 12px;
-      border-bottom:1px solid rgba(201,178,124,.45);
-      background:rgba(7,7,7,.82);
-      backdrop-filter: blur(14px);
-    }
-    .head-inner{
-      max-width:1200px;margin:0 auto;
-      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
-    }
-    .brand{display:flex;align-items:center;gap:12px;min-width:240px}
-
-    /* Animated logo + AUTOGRAPH shimmer */
-    .logo{
-      width:46px;height:46px;border-radius:16px;
-      background:
-        radial-gradient(18px 18px at 30% 25%, rgba(255,255,255,.22), transparent 55%),
-        linear-gradient(135deg, rgba(201,178,124,.95), rgba(120,98,55,.95));
-      box-shadow:
-        0 0 0 1px rgba(201,178,124,.30) inset,
-        0 14px 40px rgba(201,178,124,.12);
-      position:relative;
-      overflow:hidden;
-      transform: translateZ(0);
-      animation: logoFloat 4.6s ease-in-out infinite;
-    }
-    .logo::before{
-      content:"";
-      position:absolute; inset:-40%;
-      background: conic-gradient(from 120deg, transparent, rgba(255,255,255,.35), transparent 60%);
-      animation: shine 2.8s linear infinite;
-      opacity:.85;
-      pointer-events:none;
-    }
-    .logo::after{
-      content:"AG";
-      position:absolute; inset:0;
-      display:flex;align-items:center;justify-content:center;
-      font-weight:1000;
-      letter-spacing:1px;
-      color:#0a0a0a;
-      text-shadow: 0 1px 0 rgba(255,255,255,.25);
-      font-size:15px;
-    }
-    @keyframes shine{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-    @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-
-    .brandTitle{
-      margin:0;
-      letter-spacing:3px;
-      font-size:18px;
-      font-weight:1000;
-      line-height:1.05;
-      color:transparent;
-      background: linear-gradient(90deg, rgba(201,178,124,.55), rgba(227,210,161,1), rgba(201,178,124,.55));
-      -webkit-background-clip:text;background-clip:text;
-      position:relative;
-      text-transform:uppercase;
-    }
-    .brandTitle:after{
-      content:"";
-      position:absolute; left:-30%; top:-30%;
-      width:160%; height:160%;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,.20), transparent);
-      transform: translateX(-60%) rotate(12deg);
-      animation: brandSweep 3.3s ease-in-out infinite;
-      opacity:.65;
-      pointer-events:none;
-    }
-    @keyframes brandSweep{
-      0%{transform:translateX(-60%) rotate(12deg)}
-      55%{transform:translateX(40%) rotate(12deg)}
-      100%{transform:translateX(60%) rotate(12deg)}
-    }
-
-    .sub{
-      margin-top:2px;
-      color:rgba(245,245,245,.55);
-      font-size:12px;
-      letter-spacing:.5px;
-    }
-    .top{
-      display:flex; gap:8px; justify-content:flex-end; align-items:center; flex-wrap:wrap;
-    }
-    .chip{
-      border:1px solid rgba(201,178,124,.75);
-      background:rgba(0,0,0,.35);
-      color:var(--gold);
-      padding:7px 12px;
-      border-radius:13px;
-      cursor:pointer;
-      font-weight:900;
-      transition:.15s transform ease, .15s background ease, .15s color ease;
-    }
-    .chip:hover{transform:translateY(-1px)}
-    .chip:active{transform:scale(.98)}
-    .chip.active{background:var(--gold);color:#000}
-
-    /* ======= Layout ======= */
-    .wrap{max-width:1200px;margin:0 auto;padding:14px 14px calc(260px + env(safe-area-inset-bottom,0px))}
-
-    .toolbar{
-      position:sticky;
-      top:84px;
-      z-index:70;
-      display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap;
-      margin:12px 0 14px;
-      padding:10px;
-      border:1px solid rgba(42,42,42,.9);
-      border-radius:var(--radius);
-      background:rgba(15,15,16,.86);
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
-      transition: transform .22s ease, opacity .22s ease;
-    }
-    .toolbar.hide{
-      transform: translateY(-120%);
-      opacity:.1;
-      pointer-events:none;
-    }
-
-    .search{
-      flex:1; min-width:220px; max-width:520px;
-      background:rgba(0,0,0,.35);
-      border:1px solid var(--line);
-      color:var(--text);
-      padding:11px 12px;
-      border-radius:14px;
-      outline:none;
-      box-shadow: 0 0 0 1px rgba(255,255,255,.03) inset;
-    }
-    .search:focus{border-color: rgba(201,178,124,.65); box-shadow: 0 0 0 4px rgba(201,178,124,.12);}
-
-    /* VIP highlight */
-    .vipBox{display:flex;flex-direction:column;gap:6px;min-width:220px}
-    .vipLabel{
-      font-size:11px; letter-spacing:.8px;
-      color:rgba(245,245,245,.55);
-      text-transform:uppercase;
-      display:flex; gap:8px; align-items:center;
-    }
-    .vipLabel .dot{
-      width:7px;height:7px;border-radius:999px;background:var(--gold);
-      box-shadow: 0 0 0 6px rgba(201,178,124,.14);
-    }
-    .vipSel{
-      min-width:220px;
-      background:rgba(0,0,0,.35);
-      border:1px solid rgba(201,178,124,.55);
-      color:var(--text);
-      padding:11px 12px;
-      border-radius:14px;
-      outline:none;
-      box-shadow: 0 0 0 1px rgba(201,178,124,.12) inset, 0 10px 30px rgba(201,178,124,.08);
-    }
-    .vipSel:focus{
-      border-color: rgba(201,178,124,.95);
-      box-shadow: 0 0 0 4px rgba(201,178,124,.12), 0 0 0 1px rgba(201,178,124,.22) inset;
-    }
-
-    .tabs{display:flex;gap:8px;flex-wrap:wrap}
-    .tab{
-      border:1px solid rgba(201,178,124,.78);
-      background:rgba(0,0,0,.10);
-      color:var(--gold);
-      padding:10px 10px;
-      border-radius:14px;
-      cursor:pointer;
-      font-weight:1000;
-      transition:.15s transform ease, .15s background ease, .15s color ease;
-    }
-    .tab:hover{transform:translateY(-1px)}
-    .tab:active{transform:scale(.98)}
-    .tab.active{background:var(--gold);color:#000}
-
-    .btnTop{
-      border:1px solid rgba(201,178,124,.78);
-      background:rgba(0,0,0,.35);
-      color:var(--gold);
-      padding:11px 12px;
-      border-radius:14px;
-      cursor:pointer;
-      font-weight:1000;
-      white-space:nowrap;
-      transition:.15s transform ease, .15s background ease, .15s color ease;
-    }
-    .btnTop:hover{transform:translateY(-1px)}
-    .btnTop:active{transform:scale(.98)}
-    .btnTop.primary{background:linear-gradient(135deg, rgba(201,178,124,.95), rgba(227,210,161,.90)); color:#000; border-color:transparent;}
 
     /* ======= Menu ======= */
     .category{margin:18px 0}
@@ -455,6 +161,82 @@
     }
     .toast.show{display:block;animation:toastIn .18s ease}
     @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+    /* ===== HEADER PRO ===== */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  backdrop-filter:blur(12px);
+  background:rgba(10,10,10,0.7);
+  border-bottom:1px solid rgba(201,178,124,0.2);
+}
+
+.header-wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:14px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo-img{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+}
+
+.brandTitle{
+  font-weight:700;
+  letter-spacing:2px;
+  color:#c9b27c;
+}
+
+.brandSub{
+  font-size:12px;
+  color:#aaa;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.btn{
+  border:none;
+  padding:10px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.btn.primary{
+  background:#c9b27c;
+  color:black;
+}
+
+.btn.ghost{
+  background:transparent;
+  color:#c9b27c;
+  border:1px solid #c9b27c;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.lang .chip{
+  margin-right:4px;
+}
   </style>
 </head>
 
